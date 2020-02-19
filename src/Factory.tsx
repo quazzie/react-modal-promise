@@ -13,7 +13,8 @@ export type FactoryState = {
     [key: string]: {
       Component: Component
       props: FactoryOptions & any
-      resolve: any
+      resolve: any,
+      reject: any
     } & any
   }
   hashStack: Hex[]
@@ -33,7 +34,7 @@ class Factory extends React.PureComponent<any, FactoryState> {
   }
 
   componentWillUnmount() {
-    this.resolveAll()
+    this.rejectAll()
   }
 
   render() {
@@ -48,13 +49,14 @@ class Factory extends React.PureComponent<any, FactoryState> {
     const keys = Object.keys(this.state.instances)
 
     const mapKeys = keys.map(key => {
-      const { Component, props, resolve } = this.state.instances[key]
+      const { Component, props, resolve, reject } = this.state.instances[key]
 
       return (
         <Component
           {...props}
           key={key}
           close={resolve}
+          reject={reject}
           open={Boolean(this.state.hashStack.find(h => h === key))}
         />
       )
@@ -64,7 +66,7 @@ class Factory extends React.PureComponent<any, FactoryState> {
   }
 
   public create = (Component: Component, options = {}) => (props: any) =>
-    new Promise(promiseResolve => {
+    new Promise((promiseResolve, promiseReject) => {
       const hash = hexGen()
       const itemOptions = { ...this.defaultOptions, ...options }
 
@@ -72,11 +74,17 @@ class Factory extends React.PureComponent<any, FactoryState> {
         this.delete(hash)
         promiseResolve(value)
       }
+      
+      const reject = (value: any) => {
+        this.delete(hash)
+        promiseReject(value)
+      }
 
       const entity = {
         Component,
         props: { ...itemOptions, ...props },
         resolve,
+        reject,
         ...itemOptions
       }
 
@@ -124,6 +132,10 @@ class Factory extends React.PureComponent<any, FactoryState> {
 
   public resolveAll = () => {
     Object.values(this.state.instances).forEach(instance => instance.resolve())
+  }
+  
+  public rejectAll = () => {
+    Object.values(this.state.instances).forEach(isntance => instance.reject())
   }
 }
 
