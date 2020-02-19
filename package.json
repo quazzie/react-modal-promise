@@ -12,9 +12,9 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "build": "npm run build:types && npm run build:js",
+    "build": "npm run build:types&&npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "NODE_ENV=production rollup -c -m inline",
+    "build:js": "set NODE_ENV=production&&rollup -c -m inline",
     "format": "prettier --write",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build",
