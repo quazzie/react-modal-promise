@@ -135,7 +135,7 @@ class Factory extends React.PureComponent<any, FactoryState> {
   }
   
   public rejectAll = () => {
-    Object.values(this.state.instances).forEach(isntance => instance.reject())
+    Object.values(this.state.instances).forEach(instance => instance.reject())
   }
 }
 
