@@ -17,6 +17,7 @@
     "build:js": "NODE_ENV=production rollup -c -m inline",
     "format": "prettier --write",
     "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "type-check": "tsc --noEmit"
