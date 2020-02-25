@@ -3,16 +3,16 @@ import { mount } from "enzyme";
 
 import ModalController, { createModal } from "../index";
 
-const Modal = ({ open, close, value }: any) => {
+const Modal = ({ open, resolve, reject, value }: any) => {
   if (!open) return null;
 
   return (
     <div id="test">
       Test Modal
-      <button id="cancel" onClick={() => close()}>
+      <button id="cancel" onClick={() => reject()}>
         close
       </button>
-      <button id="success" onClick={() => close(value)}>
+      <button id="success" onClick={() => resolve(value)}>
         submit
       </button>
     </div>
