@@ -55,7 +55,7 @@ class Factory extends React.PureComponent<any, FactoryState> {
         <Component
           {...props}
           key={key}
-          close={resolve}
+          resolve={resolve}
           reject={reject}
           open={Boolean(this.state.hashStack.find(h => h === key))}
         />
