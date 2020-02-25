@@ -5,7 +5,7 @@ export type Scope = string
 
 type InjectedModalProps<Result> = {
   open: boolean
-  close: (result: Result) => void
+  resolve: (result: Result) => void
   reject: (result: Result) => void
 }
 
@@ -24,7 +24,7 @@ export interface CreateModalModel {
   <T extends InjectedModalProps<Result>, Result = boolean>(
     Component: React.ComponentType<T>,
     options?: ModalOptions
-  ): (props?: Omit<T, 'open' | 'close' | 'reject'>) => Promise<Result>
+  ): (props?: Omit<T, 'open' | 'resolve' | 'reject'>) => Promise<Result>
 }
 
 interface FactoryStackModel {
